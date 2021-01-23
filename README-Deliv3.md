@@ -35,30 +35,43 @@ commits for the duration of the third segment
 (12 total commits per person)
 
 ## Machine Learning Model
-Team members submit the working code for
-their machine learning model, as well as the
-following:
 
-✓ Description of data preprocessing 
 
-✓ Description of feature engineering and the
-feature selection, including their decisionmaking process 
+### Preliminary data preprocessing
+We performed extensive preliminary data preprocessing to prepare our dataset to function properly in Machine Learning models, including:
 
-PCA (reduction?¿) to distill 46 columns/variables into more meaningul?¿ data for the ml model..
+* We filtered our dataset on “loan_status” column, dropping all categories except “Fully Paid” & “Charged Off” to create a “good loan vs. bad loan” column ( we exclude data pertaining to loans that are in repayment to focus only on the loans where the outcome is known, either “Fully Paid” (good loans) or “Charged Off” (bad loans))
 
-✓ Description of how data was split into training and testing sets 
+* We learned from our data exploration that the loan dataset contained a large amount of missing values, so we dropped all columns that were missing over 100,000 values
 
-✓ Explanation of model choice, including limitations and benefits 
+* We used the “data dictionary” from Lending Club to learn about each column of data and used this resource and subject matter expertise to drop duplicate data columns, text and date data columns that are not usable in ML models, as well as data columns that would not be known before a loan is approved and being serviced
+* We dropped missing values or “na”s from dataset using Panda’s “dropna” method
+* We transformed non-numeric categorical data to dummy variables with Panda’s “get_dummies” method
 
-✓ Explanation of changes in model choice (if changes occurred between the Segment 2 and Segment 3 deliverables) 
+### Preliminary feature engineering and preliminary feature selection
+Since our raw dataset contained a very large amount of variables (151 columns), we performed feature engineering to reduce the quantity of features to include in our ML models. We had already eliminated features with large amounts of missing data as well as eliminating redundant or duplicate data features, and further refined our dataset by removing features that do not provide data relevant to making predictions about credit risk. We then used Principal Component Analysis (PCA), a statistical technique to optimize ML models by reducing the input features by transforming a large set of variables into a smaller one that contains most of the information in the original large set.
+The features determined by our feature reduction process represent information about a borrower’s Credit score, Annual Income, Debt-to-Income Ratio, Loan Amount, Total Credit Revolving Balance, Revolving line utilization rate (the proportion of credit the borrower is using relative to all available revolving credit)
+
+![Selected_features _LCDataDictionary](./Resources/Selected_features _LCDataDictionary.png) 
+
+### Determining training and testing datasets
+We split our data into training and testing sets, using scikit-learn’s “train_test_split” method, and used the default split of 75% of data for model training and 25% of data for model testing.
+
+
+
+### Model choice, limitations and benefits
+We ran several types of Machine Learning models on our preprocessed Lending Club dataset, including Logistic Regression, Decision Trees, Easy Ensemble Classifiers and Balanced Random Forest Classifier models. We focus BRFC Supervised Machine Learning models because they are suited to make classification predictions, as well as their robustness and ability to handle large amounts of data- and especially because these types of models are meant to work on imbalanced data, (as our dataset has a slight to moderate imbalance- we have about 4 times as many 'good' loans as 'bad' loans). We utilize the 'StandardScaler' since our data contains features that vary widely in magnitudes, units and range. Applying scaling to our features reduces the machine learning algorithms' tendency to weigh greater values, higher and consider smaller values as the lower values, regardless of the unit of the values or the range they cover.
+
+✓ We added PCA to our BRFC model (between Segment 2 and Segment 3 deliverables) to reduce the dimensions (columns) we feed into the model and increase the model accuracy and reduce the differences in Precision and Recall between 'good' and 'bad' loan classes. We iterated over different combinations of features and Principal Components, using the 'Feature Importance' ranking to select the features with the highest importance ratings. Our final BRFC model uses PCA on 15 features to transform down to 7 Principal Components.
 
 ✓ Description of how they have trained the model thus far, and any additional training that will take place 
+Trained model on XXX columns and YYYY rows
 
 ✓ Description of current accuracy score
+Accuracy scores from 0.49 to 0.55
 
 Additionally, the model obviously addresses
-the question or problem the team is solving. 
-
+the question or problem the team is solving.
 
 ## Dashboard
 The dashboard presents a data story that is
